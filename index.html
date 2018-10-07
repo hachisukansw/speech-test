@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Speech Test</title>
+</head>
+<body>
+<table border="1" cellspacing="0" cellpadding="4">
+<tr><td></td><td>defined</td><td>error</td><td>start</td><td>end</td></tr>
+<tr>
+<td><input type="button" id="enUS" value="Hello"></td>
+<td><span id="enUSDef"></span></td>
+<td><span id="enUSError"></span></td>
+<td><span id="enUSStart"></span></td>
+<td><span id="enUSEnd"></span></td>
+</tr>
+<tr>
+<td><input type="button" id="jaJP" value="こんにちは"></td>
+<td><span id="jaJPDef"></span></td>
+<td><span id="jaJPError"></span></td>
+<td><span id="jaJPStart"></span></td>
+<td><span id="jaJPEnd"></span></td>
+</tr>
+</table>
+</body>
+<script type="text/javascript">
+document.getElementById("enUS").addEventListener("click", function(e) {
+    document.getElementById("enUSDef").textContent = typeof SpeechSynthesisUtterance;
+    if (typeof SpeechSynthesisUtterance == "undefined") {return}
+    var u = new SpeechSynthesisUtterance();
+    u.clickTime = new Date();
+    u.addEventListener("error", function(e) {
+        document.getElementById("enUSError").textContent = (new Date() - this.clickTime) + "ms";
+    });
+    u.addEventListener("start", function(e) {
+        this.startTime = new Date();
+        document.getElementById("enUSStart").textContent = (new Date() - this.clickTime) + "ms";
+    });
+    u.addEventListener("end", function(e) {
+        document.getElementById("enUSEnd").textContent = (new Date() - this.startTime) + "ms";
+    });
+    u.text = "hello";
+    u.lang = 'en-US';
+    u.rate = 1.0;
+    //u.volume = 0;
+    window.speechSynthesis.speak(u);
+});
+document.getElementById("jaJP").addEventListener("click", function(e) {
+    document.getElementById("jaJPDef").textContent = typeof SpeechSynthesisUtterance;
+    if (typeof SpeechSynthesisUtterance == "undefined") {return}
+    var u = new SpeechSynthesisUtterance();
+    u.clickTime = new Date();
+    u.addEventListener("error", function(e) {
+        document.getElementById("jaJPError").textContent = (new Date() - this.clickTime) + "ms";
+    });
+    u.addEventListener("start", function(e) {
+        this.startTime = new Date();
+        document.getElementById("jaJPStart").textContent = (new Date() - this.clickTime) + "ms";
+    });
+    u.addEventListener("end", function(e) {
+        document.getElementById("jaJPEnd").textContent = (new Date() - this.startTime) + "ms";
+    });
+    u.text = "こんにちは";
+    u.lang = 'ja-JP';
+    u.rate = 1.0;
+    //u.volume = 0;
+    window.speechSynthesis.speak(u);
+    })
+</script>
+</html>
